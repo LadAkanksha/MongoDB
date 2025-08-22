@@ -1,0 +1,41 @@
+----------	MongoDB Introduction	----------
+
+MongoDB is a NoSQL, document-oriented database designed for scalability, high availability, and performance. 
+Unlike traditional relational databases (like MySQL or PostgreSQL), MongoDB stores data in flexible, JSON-like documents, making it easier to work with complex, hierarchical data structures.
+
+🔹 Key Features
+
+	Feature					Description
+
+    Document-Oriented		Stores data in BSON format (Binary JSON). Each record is a document.
+    Schema-Less			No fixed schema, allowing dynamic and flexible data models.
+    Scalable			Horizontal scaling using sharding.
+    High Performance		Optimized for read/write operations.
+    Indexing			Supports various types of indexes for fast queries.
+    Replication			Ensures high availability with replica sets.
+
+
+🧱 MongoDB Data Structure
+
+MongoDB’s structure is hierarchical:
+
+Database – A container for collections.
+Collection – A group of MongoDB documents (like a table in RDBMS).
+Document – A set of key-value pairs (like a row in RDBMS, but more flexible).
+
+
+💡 When to Use MongoDB
+
+- When dealing with large volumes of unstructured or semi-structured data.
+- When the schema may evolve over time.
+- For rapid development and agile workflows.
+- In applications like content management, IoT, real-time analytics, and catalogs.
+
+
+🔐 Ecosystem and Tools
+
+- MongoDB Atlas – Cloud-based MongoDB service.
+- Mongoose – ODM for MongoDB in Node.js.
+- Compass – GUI for MongoDB.
+- Mongo Shell – CLI for interacting with MongoDB.
+
