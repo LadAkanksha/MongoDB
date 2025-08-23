@@ -1,0 +1,104 @@
+----------	Database and Collection		----------
+
+🔹 Database
+	A database is a container for collections. 
+	Each database is stored separately and can contain its own users, permissions, and collections.
+
+
+💡To Create Database / Use Existing Database : 
+
+	use <database_name>
+ 
+💡To Show Databases :
+	
+	show dbs
+
+💡To Delete Database :
+
+	db.dropDatabase()
+
+----------------------------------------------------------------------------
+
+🔹 Collection
+	A collection is a group of MongoDB documents. 
+	It is the equivalent of a table in relational databases.
+
+💡To Create Collection : 
+	
+	db.createCollection("<collection_name>")
+
+💡To Show Collections :
+	
+	show collections
+
+💡To Rename The Collection :
+
+	db.<collection_name>.renameCollection("<new_collection_name>")
+
+💡To Delete The Collection :
+
+	db.<collection_name>.drop()
+
+-----------------------------------------------------------------------------
+
+💡To List Methods for Database :
+	db.help()
+
+💡To List Methods for Collection :
+	db.<collection_name>.help()
+
+-----------------------------------------------------------------------------
+Commands ->
+
+test> show dbs
+admin   40.00 KiB
+config  60.00 KiB
+local   40.00 KiB
+
+test> use student
+switched to db student
+
+student> db
+student
+
+student> show collections
+
+student> db.createCollection("Information")
+{ ok: 1 }
+
+student> show collections
+Information
+
+student> db.createCollection("library")
+{ ok: 1 }
+
+student> show collections
+Information
+library
+
+student> db
+student
+
+student> db.library.renameCollection("Library")
+{ ok: 1 }
+
+student> show collections
+Information
+Library
+
+student> db.Information.drop()
+true
+
+student> show collections
+Library
+
+student> db.Library.drop()
+true
+
+student> db.dropDatabase()
+{ ok: 1, dropped: 'student' }
+
+student> show dbs
+admin   40.00 KiB
+config  72.00 KiB
+local   40.00 KiB
