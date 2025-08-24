@@ -1,0 +1,133 @@
+----------	Insert Document      ----------
+
+
+🔹 Document 
+	In MongoDB, a document is the basic unit of data. 
+	It’s a JSON-like structure (BSON—Binary JSON under the hood) that stores data in key-value pairs.
+
+
+💡To Insert 1 Document at a Time :
+	
+	db.<collection_name>.insertOne({ field1:"value", field2 : value })
+
+
+💡To Insert Multiple Document at a Time :
+
+	db.<collection_name>.insertMany([
+		{field1:"value", field2 : value},
+		{field1:"value", field2 : value},
+		{field1:"value", field2 : value}
+	])
+
+
+----------------------------------------------------------------------------
+
+test> use School
+switched to db School
+
+School> db.createCollection("Students")
+{ ok: 1 }
+School> show dbs
+School   8.00 KiB
+admin   40.00 KiB
+config  72.00 KiB
+local   40.00 KiB
+
+School> db.Students.insertOne({name:"Akanksha Lad",age:22 , course:"BCS"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('68669c645bae57b6af748a5f')
+}
+
+School> db.Students.insertOne({name:"Atharv Lad",age:18 , course:"12th"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('68669c895bae57b6af748a60')
+}
+
+School> db.Students.find()
+[
+  {
+    _id: ObjectId('68669c645bae57b6af748a5f'),
+    name: 'Akanksha Lad',
+    age: 22,
+    course: 'BCS'
+  },
+  {
+    _id: ObjectId('68669c895bae57b6af748a60'),
+    name: 'Atharv Lad',
+    age: 18,
+    course: '12th'
+  }
+]
+
+School> db.Students.insertOne({name:"Apeksha Lad",age:24 , course:"D.Ed"})
+{
+  acknowledged: true,
+  insertedId: ObjectId('68669cbe5bae57b6af748a61')
+}
+
+School> db.Students.find()
+[
+  {
+    _id: ObjectId('68669c645bae57b6af748a5f'),
+    name: 'Akanksha Lad',
+    age: 22,
+    course: 'BCS'
+  },
+  {
+    _id: ObjectId('68669c895bae57b6af748a60'),
+    name: 'Atharv Lad',
+    age: 18,
+    course: '12th'
+  },
+  {
+    _id: ObjectId('68669cbe5bae57b6af748a61'),
+    name: 'Apeksha Lad',
+    age: 24,
+    course: 'D.Ed'
+  }
+]
+
+School> db.Students.insertMany([{name:"Shashikant Yadav",age:22,course:"MCA"},{name:"Sushma Gurav",age:21,course:"MCA"}])
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('68669d375bae57b6af748a62'),
+    '1': ObjectId('68669d375bae57b6af748a63')
+  }
+}
+
+School> db.Students.find()
+[
+  {
+    _id: ObjectId('68669c645bae57b6af748a5f'),
+    name: 'Akanksha Lad',
+    age: 22,
+    course: 'BCS'
+  },
+  {
+    _id: ObjectId('68669c895bae57b6af748a60'),
+    name: 'Atharv Lad',
+    age: 18,
+    course: '12th'
+  },
+  {
+    _id: ObjectId('68669cbe5bae57b6af748a61'),
+    name: 'Apeksha Lad',
+    age: 24,
+    course: 'D.Ed'
+  },
+  {
+    _id: ObjectId('68669d375bae57b6af748a62'),
+    name: 'Shashikant Yadav',
+    age: 22,
+    course: 'MCA'
+  },
+  {
+    _id: ObjectId('68669d375bae57b6af748a63'),
+    name: 'Sushma Gurav',
+    age: 21,
+    course: 'MCA'
+  }
+]
