@@ -1,0 +1,108 @@
+---------------		Datatypes      ---------------
+
+🔹String				----->		name : "Akshay Kumar"		
+🔹Double				----->		weight : 59.80	
+🔹32-Bit Integer		----->		age : 40			( Range : 2,147,483,68 - 2,147,483,687 )
+🔹64-Bit Integer		----->						( Range : 9,223,372,036,854,775,808 - 9,223,372,036,854,775,807 )
+🔹Boolean				----->		married : true
+🔹Array					----->		hobbies : ["Acting","Karate"]
+🔹Object				----->		address : {"road":"LSG Marg","city":"Mumbai","Country":"India"}
+🔹Null					----->		kids : null
+🔹Regular Expression	----->
+🔹Timestamp				----->
+🔹Date					----->		dob : ISODate("1990-04-05T12:00Z")
+🔹ObjectID				----->		_id : ObjectId('686935b7be9c24891a748a5f')
+
+
+💡Date ->
+
+	Different Format for Date :
+
+	1) {dob:ISODate("1990-04-05T12:00Z")}			Where, T = Time , Z = End/ UTC-Coordinated Universal Time
+
+	2) {dob:ISODate("1990-04-05T12:00+02:00")}		Where, T=Time , +02:00= End/ ETC-Central European Time
+	
+	3) {dob:ISODate("1990-04-05T12:00-05:00")}		Where, T=Time , -05:00 = End / STE-Eastern Standard Time
+
+	4) {dob:ISODate("1990-04-05T12:00")}			Where, T=Time , Local Time Zone
+
+	5) {dob:ISODate("1990-04-05T12:30:00Z")}		Where, T=Time , Z= End
+
+	6) {dob:new Date()}					To Store current date & time
+
+------------------------------------------------------------------------------------------------------------------------------------
+
+test> db.Personal.insertOne({
+...     name:"Akshay Kumar",
+...     age:40,
+...     weight:59.80,
+...     married:true,
+...     dob:ISODate("1990-04-05T12:00Z"),
+...     kids:null,
+...     hobbies:["Acting","Karate"],
+...     address:{
+...             "road":"LSG Marg",
+...             "city":"Mumbai",
+...             "Country":"India"
+...     }
+... })
+
+test> db.Personal.find();
+[
+  {
+    _id: ObjectId('686935b7be9c24891a748a5f'),
+    name: 'Akshay Kumar',
+    age: 40,
+    wight: 59.8,
+    married: true,
+    dob: ISODate('1990-04-05T12:00:00.000Z'),
+    kids: null,
+    hobbies: [ 'Acting', 'Karate' ],
+    address: { road: 'LSG Marg', city: 'Mumbai', Country: 'India' }
+  }
+]
+
+test> db.Personal.insertOne({
+...     name:"Vedang Yadav",
+...     age:30,
+...     wight:50,
+...     married:false,
+...     dob:new Date(),
+...     kids:null,
+...     hobbies:["Reading","Trecking"],
+...     address:{
+...             "road":"LSG Marg",
+...             "city":"Mumbai",
+...             "Country":"India"
+...     }
+... })
+{
+  acknowledged: true,
+  insertedId: ObjectId('686935dabe9c24891a748a60')
+}
+
+test> db.Personal.find();
+[
+  {
+    _id: ObjectId('686935b7be9c24891a748a5f'),
+    name: 'Akshay Kumar',
+    age: 40,
+    wight: 59.8,
+    married: true,
+    dob: ISODate('1990-04-05T12:00:00.000Z'),
+    kids: null,
+    hobbies: [ 'Acting', 'Karate' ],
+    address: { road: 'LSG Marg', city: 'Mumbai', Country: 'India' }
+  },
+  {
+    _id: ObjectId('686935dabe9c24891a748a60'),
+    name: 'Vedang Yadav',
+    age: 30,
+    wight: 50,
+    married: false,
+    dob: ISODate('2025-07-05T14:25:30.410Z'),
+    kids: null,
+    hobbies: [ 'Reading', 'Trecking' ],
+    address: { road: 'LSG Marg', city: 'Mumbai', Country: 'India' }
+  }
+]
