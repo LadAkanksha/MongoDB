@@ -1,0 +1,321 @@
+---------------		Schema Validation      ---------------
+
+   Schema validation in MongoDB allows you to enforce rules for the structure and content of documents within a collection. 
+   This is particularly useful for ensuring data consistency.
+
+	
+💡 Define schema rules when Creating a collection using the validator option.
+
+	db.createCollection("<collection_name>",{
+		validator:{
+			$jsonSchema:{
+				required : ["<prperty_name1>","<property_name2>"]	//Comma separated property name,
+				title : "<title for validation>";			//optional
+				properties : {
+					string_property : {
+						bsonType : "string",
+						enum : ["value1","value2"],		//restrict a field's value to a predefined list of acceptable values 
+						description : "<write suitable description>"
+					},
+					integer_property :{
+						bsonType : int,
+						minimum : <int_value>,						//optional
+						maximum : <int_value>,						//optional
+						description : "<write suitable description>"
+					},
+					
+				}
+			}
+		}
+	});
+	
+	
+💡 Define schema rules when Updating Validation on Existing Collections :
+
+	db.runCommand({
+		collMod : "<collection_name>",
+		validator:{
+			$jsonSchema:{
+				required : ["<prperty_name1>","<property_name2>"]	//Comma separated property name,
+				title : "<title for validation>";			//optional
+				properties : {
+					string_property : {
+						bsonType : "string",
+						enum : ["value1","value2"],		//restrict a field's value to a predefined list of acceptable values 
+						description : "<write suitable description>"
+					},
+					integer_property :{
+						bsonType : int,
+						minimum : <int_value>,						//optional
+						maximum : <int_value>,						//optional
+						description : "<write suitable description>"
+					},
+					
+				}
+			}
+		}
+	});
+	
+---------------------------------------------------------------------------------------------------
+
+test> db.createCollection("Demo",{
+...             validator:{
+...                     $jsonSchema:{
+...                             required:["name","age","course"],
+...                             title : "Demo Validation Schema",
+...                             properties : {
+...                                     name:{
+...                                             bsonType:"string",
+...                                             description:"name should be string and required !!!"
+...                                     },
+...                                     age:{
+...                                             bsonType:"int",
+...                                             minimum:10,
+...                                             maximum:30,
+...                                             description:"age should be integer between 10-30 and required !!!"
+...                                     },
+...                                     course:{
+...                                             bsonType : "string",
+...                                             enum : ["BCA","BCS","BSc"],
+...                                             description:"course should be string and within predefine set !!!"
+...                                     }
+...                             }
+...                     }
+...             }
+...     });
+{ ok: 1 }
+	
+test> db.createCollection("Demo",{
+		validator:{
+			$jsonSchema:{
+				required:["name","age","course"],
+				title : "Demo Validation Schema",
+				properties : {
+					name:{
+						bsonType:"string",
+						description:"name should be string and required !!!"
+					},
+					age:{
+						bsonType:"int",
+						minimum:10,
+						maximum:30,
+						description:"age should be integer between 10-30 and required !!!"
+					},
+					course:{
+						bsonType : "string",
+						enum : ["BCA","BCS","BSc"],
+						description:"course should be string and within predefine set !!!"
+					}
+				}
+			}
+		}
+	});
+	
+test> db.Demo.insertOne({
+...     name:"Akanksha Lad",
+...     age:22,
+...     course:"BCS"
+... })
+{
+  acknowledged: true,
+  insertedId: ObjectId('686944c0cd390ce768748a60')
+}
+
+test> db.Demo.insertOne({
+...     name:123,					//Invalid Name
+...     age:22,
+...     course:"BCS"
+... })
+Uncaught:
+MongoServerError: Document failed validation
+Additional information: {
+  failingDocumentId: ObjectId('686944f6cd390ce768748a61'),
+  details: {
+    operatorName: '$jsonSchema',
+    title: 'Demo Validation Schema',
+    schemaRulesNotSatisfied: [
+      {
+        operatorName: 'properties',
+        propertiesNotSatisfied: [
+          {
+            propertyName: 'name',
+            description: 'name should be string and required !!!',
+            details: [
+              {
+                operatorName: 'bsonType',
+                specifiedAs: { bsonType: 'string' },
+                reason: 'type did not match',
+                consideredValue: 123,
+                consideredType: 'int'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+test> db.Demo.insertOne({
+...     name:"Atharv Lad",
+...     age:35.40,					//Invalid Age
+...     course:"BCS"
+... })
+Uncaught:
+MongoServerError: Document failed validation
+Additional information: {
+  failingDocumentId: ObjectId('68694517cd390ce768748a62'),
+  details: {
+    operatorName: '$jsonSchema',
+    title: 'Demo Validation Schema',
+    schemaRulesNotSatisfied: [
+      {
+        operatorName: 'properties',
+        propertiesNotSatisfied: [
+          {
+            propertyName: 'age',
+            description: 'age should be integer between 10-30 and required !!!',
+            details: [
+              {
+                operatorName: 'maximum',
+                specifiedAs: { maximum: 30 },
+                reason: 'comparison failed',
+                consideredValue: 35.4
+              },
+              {
+                operatorName: 'bsonType',
+                specifiedAs: { bsonType: 'int' },
+                reason: 'type did not match',
+                consideredValue: 35.4,
+                consideredType: 'double'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+test> db.Demo.insertOne({
+...     name:"Atharv Lad",
+...     age:35,						//Invalid age
+...     course:"12th"					//Invalid Course
+... })
+Uncaught:
+MongoServerError: Document failed validation
+Additional information: {
+  failingDocumentId: ObjectId('6869452ccd390ce768748a63'),
+  details: {
+    operatorName: '$jsonSchema',
+    title: 'Demo Validation Schema',
+    schemaRulesNotSatisfied: [
+      {
+        operatorName: 'properties',
+        propertiesNotSatisfied: [
+          {
+            propertyName: 'age',
+            description: 'age should be integer between 10-30 and required !!!',
+            details: [
+              {
+                operatorName: 'maximum',
+                specifiedAs: { maximum: 30 },
+                reason: 'comparison failed',
+                consideredValue: 35
+              }
+            ]
+          },
+          {
+            propertyName: 'course',
+            description: 'course should be string and within predefine set !!!',
+            details: [
+              {
+                operatorName: 'enum',
+                specifiedAs: { enum: [ 'BCA', 'BCS', 'BSc' ] },
+                reason: 'value was not found in enum',
+                consideredValue: '12th'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+test> db.Demo.insertOne({
+...     name:"Atharv Lad",
+...     age:28,
+...     course:"12th"					//Invalid course	
+... })
+Uncaught:
+MongoServerError: Document failed validation
+Additional information: {
+  failingDocumentId: ObjectId('68694548cd390ce768748a64'),
+  details: {
+    operatorName: '$jsonSchema',
+    title: 'Demo Validation Schema',
+    schemaRulesNotSatisfied: [
+      {
+        operatorName: 'properties',
+        propertiesNotSatisfied: [
+          {
+            propertyName: 'course',
+            description: 'course should be string and within predefine set !!!',
+            details: [
+              {
+                operatorName: 'enum',
+                specifiedAs: { enum: [ 'BCA', 'BCS', 'BSc' ] },
+                reason: 'value was not found in enum',
+                consideredValue: '12th'
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+
+test> db.Demo.insertOne({
+...     name:"Atharv Lad",
+...     age:28,
+...     course:"BSc"
+... });
+{
+  acknowledged: true,
+  insertedId: ObjectId('68694563cd390ce768748a65')
+}
+
+-----------------------------------------
+
+test> db.createCollection("Demo2");
+{ ok: 1 }
+
+test> db.runCommand({
+        collMod:"Demo2",
+        validator:{
+                $jsonSchema:{
+                        required:["name","age","course"],
+                        title : "Demo Validation Schema",
+                        properties : {
+                                name:{
+                                        bsonType:"string",
+                                        description:"name should be string and required !!!"
+                                },
+                                age:{
+                                        bsonType:"int",
+                                        minimum:10,
+                                        maximum:30,
+                                        description:"age should be integer between 10-30 and required !!!"
+                                },
+                                course:{
+                                        bsonType : "string",
+                                        enum : ["BCA","BCS","BSc","BTech"],
+                                        description:"course should be string and within predefine set !!!"
+                                }
+                        }
+                }
+        }
+});
+{ ok: 1 }
