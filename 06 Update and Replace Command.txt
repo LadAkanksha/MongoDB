@@ -1,0 +1,239 @@
+----------	Update and Replace Command	----------
+
+ - Modifies an existing document or documents in a collection.
+
+💡 To Update One Row at a Time : 
+
+	UpdateOne() -  Updates a single document within the collection based on the filter.
+
+	db.<collection_nama>.updateOne(
+		{field_name : "value"},
+		{$set:{updated_field_name1 : "new_value1" , updated_field_name2 : "new_value2"}}
+	);
+
+-------------------------------------------------------------------------------------------------------
+
+💡 To Update Multiple Row at a Time :
+
+	updateMany() - Updates all documents that match the specified filter for a collection.
+
+	db.<collection_nama>.updateMany(
+		{field_name : "value"},
+		{$set:{updated_field_name1 : "new_value1" , updated_field_name2 : "new_value2"}}
+	);
+
+-------------------------------------------------------------------------------------------------------
+
+ 
+🔧 Field Update Operators
+
+	Operator			Description
+    --------------------------------------------------------------------------------------------
+	$set			Sets the value of a field. Creates the field if it doesn't exist.
+	$unset			Removes the specified field from a document.
+	$inc			Increments a field by a specified value.
+	$mul			Multiplies a field by a specified value.
+	$rename			Renames a field.
+	$min			Updates the field only if the specified value is less than the current value.
+	$max			Updates the field only if the specified value is greater than the current value.
+	$currentDate		Sets the value of a field to the current date.
+
+
+
+🧮 Array Update Operators
+
+	Operator			Description
+   ----------------------------------------------------------------------------------------------
+	$push			Adds an item to an array.
+	$pop			Removes the first or last item of an array. (-1 for first, 1 for last)
+	$pull			Removes all matching values from an array.
+	$addToSet		Adds a value to an array only if it doesn’t already exist.
+	$pullAll		Removes all instances of the specified values from an array.
+
+
+-----------------------------------------------------------------------------------------------------------------------
+
+db.Student.updateOne(
+	 {_id: ObjectId('686b8013dcfab3ffa2748a60')},
+	{$set:{name:"Sakshi Mali"}}
+);
+db.Student.updateMany(
+	{},
+	{$rename:{"course":"qualification"}}
+);
+
+db.Student.updateOne(
+	{ _id: ObjectId('686b809adcfab3ffa2748a61')},
+	{$inc:{age:2}}
+);
+db.Student.updateOne(
+	{ _id: ObjectId('686b809adcfab3ffa2748a61')},
+	{$mul:{age:2}}
+);
+
+-----
+
+School> db.Student.find();
+[
+  {
+    _id: ObjectId('686b8013dcfab3ffa2748a5f'),
+    name: 'Akanksha Lad',
+    age: 22,
+    course: 'BCS'
+  },
+  {
+    _id: ObjectId('686b8013dcfab3ffa2748a60'),
+    name: 'Sakshi',
+    age: 21,
+    course: 'BCS'
+  },
+  {
+    _id: ObjectId('686b809adcfab3ffa2748a61'),
+    name: 'Saurabh Lad',
+    age: 20,
+    course: 'BTech'
+  },
+  {
+    _id: ObjectId('686b809adcfab3ffa2748a62'),
+    name: 'Pratham',
+    age: 26,
+    course: 'BSc'
+  },
+  {
+    _id: ObjectId('686b809adcfab3ffa2748a63'),
+    name: 'Pratiksha Lad',
+    age: 24,
+    course: 'BSc'
+  }
+]
+
+School> db.Student.updateOne(
+...     {name:"Pratham"},
+...     {$set:{name:"Pratham Lad"}}
+... );
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+School> db.Student.find();
+[
+  {
+    _id: ObjectId('686b8013dcfab3ffa2748a5f'),
+    name: 'Akanksha Lad',
+    age: 22,
+    course: 'BCS'
+  },
+  {
+    _id: ObjectId('686b8013dcfab3ffa2748a60'),
+    name: 'Sakshi',
+    age: 21,
+    course: 'BCS'
+  },
+  {
+    _id: ObjectId('686b809adcfab3ffa2748a61'),
+    name: 'Saurabh Lad',
+    age: 20,
+    course: 'BTech'
+  },
+  {
+    _id: ObjectId('686b809adcfab3ffa2748a62'),
+    name: 'Pratham Lad',
+    age: 26,
+    course: 'BSc'
+  },
+  {
+    _id: ObjectId('686b809adcfab3ffa2748a63'),
+    name: 'Pratiksha Lad',
+    age: 24,
+    course: 'BSc'
+  }
+]
+
+School> db.Student.updateOne(
+...      {_id: ObjectId('686b8013dcfab3ffa2748a60')},
+...     {$set:{name:"Sakshi Mali"}}
+... );
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+
+----------------------------------------------------
+
+db.Student.updateOne(
+	{_id: ObjectId('686b8013dcfab3ffa2748a60')},
+	{$set:{name:"Sakshi Mali"}}
+);
+db.Student.updateMany(
+	{},
+	{$rename:{"course":"qualification"}}
+);
+
+db.Student.updateOne(
+	{ _id: ObjectId('686b809adcfab3ffa2748a61')},
+	{$inc:{age:2}}
+);
+db.Student.updateOne(
+	{ _id: ObjectId('686b809adcfab3ffa2748a61')},
+	{$mul:{age:2}}
+);
+
+db.Student.updateOne(
+	{ _id: ObjectId('686b809adcfab3ffa2748a61')},
+	{$unset:{age:""}}
+);
+
+db.Student.updateOne(
+	{ _id: ObjectId('686b809adcfab3ffa2748a61')},
+	{$currentDate:{"lastModified" : true}}
+);
+
+
+-----------------------------------------------------
+
+db.Student.updateOne(
+	{ _id: ObjectId('686b809adcfab3ffa2748a61')},
+	{$push:{"skills":"JavaScript"}}	
+);
+
+db.Student.updateOne(
+	{ _id: ObjectId('686b809adcfab3ffa2748a64')},
+	{$push:{"skills":["JavaScript","Bootstrap"]}}
+);
+
+db.Student.updateOne(
+	{ _id: ObjectId('686b809adcfab3ffa2748a61')},
+	{$pop:{"skills":-1}}
+);
+
+db.Student.updateOne(
+	{ _id: ObjectId('686b809adcfab3ffa2748a61')},
+	{$pop:{"skills":1}}
+);
+
+db.Student.updateOne(
+	{ _id: ObjectId('686b809adcfab3ffa2748a61')},
+	{$pull:{"skills":"JavaScript"}}
+);
+
+db.Student.updateOne(
+	{ _id: ObjectId('686b809adcfab3ffa2748a61')},
+	{$addToSet:{"skills":"Java"}}
+);
+
+db.Student.updateOne(
+	{ _id: ObjectId('686b809adcfab3ffa2748a61')},
+	{$pullAll:{"skills":["Java","JavaScript"]}}
+);
+
+
+
+
+
