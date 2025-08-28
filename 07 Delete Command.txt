@@ -1,0 +1,139 @@
+----------	Delete Command	----------
+
+ - Delete an existing document or documents in a collection.
+
+💡 To Delete One Documents at a Time : 
+
+	deleteOne() -  Delete a single document within the collection based on the filter.
+
+	db.<collection_name>.deleteOne({ field_name : "value" });
+
+-------------------------------------------------------------------------------------------------------
+
+💡 To Delete Multiple Documents at a Time :
+
+	deleteMany() - Delete all documents that match the specified filter for a collection.
+
+	db.<collection_name>.deleteMany({field_name : "value"});
+
+
+💡 To Delete All Documents a Time :
+	
+	db.<collection_name>.deleteMany({});
+
+-------------------------------------------------------------------------------------------------------
+
+
+test> show dbs;
+School  144.00 KiB
+admin    40.00 KiB
+config   48.00 KiB
+local    40.00 KiB
+test    152.00 KiB
+
+test> use School;
+switched to db School
+
+School> show collections;
+Student
+Students
+
+School> db.Student.find();
+[
+  {
+    _id: ObjectId('686b8013dcfab3ffa2748a5f'),
+    name: 'Akanksha Lad',
+    age: 22,
+    course: 'BCS'
+  },
+  {
+    _id: ObjectId('686b8013dcfab3ffa2748a60'),
+    name: 'Sakshi Mali',
+    age: 21,
+    course: 'BCS'
+  },
+  {
+    _id: ObjectId('686b809adcfab3ffa2748a61'),
+    name: 'Saurabh Lad',
+    age: 22,
+    course: 'BTech'
+  },
+  {
+    _id: ObjectId('686b809adcfab3ffa2748a62'),
+    name: 'Pratham Lad',
+    age: 26,
+    course: 'BSc'
+  },
+  {
+    _id: ObjectId('686b809adcfab3ffa2748a63'),
+    name: 'Pratiksha Lad',
+    age: 24,
+    course: 'BSc'
+  }
+]
+
+
+School> db.Student.deleteOne({name:"Pratahm"});
+{ acknowledged: true, deletedCount: 0 }
+
+
+School> db.Student.deleteOne({name:"Pratham Lad"});
+{ acknowledged: true, deletedCount: 1 }
+
+
+School> db.Student.deleteOne({age:22});
+{ acknowledged: true, deletedCount: 1 }
+
+
+School> db.Student.find();
+[
+  {
+    _id: ObjectId('686b8013dcfab3ffa2748a60'),
+    name: 'Sakshi Mali',
+    age: 21,
+    course: 'BCS'
+  },
+  {
+    _id: ObjectId('686b809adcfab3ffa2748a61'),
+    name: 'Saurabh Lad',
+    age: 22,
+    course: 'BTech'
+  },
+  {
+    _id: ObjectId('686b809adcfab3ffa2748a63'),
+    name: 'Pratiksha Lad',
+    age: 24,
+    course: 'BSc'
+  }
+]
+
+
+School> db.Student.deleteMany({ _id: ObjectId('686b809adcfab3ffa2748a61')});
+{ acknowledged: true, deletedCount: 1 }
+
+
+School> db.Student.find();
+[
+  {
+    _id: ObjectId('686b8013dcfab3ffa2748a60'),
+    name: 'Sakshi Mali',
+    age: 21,
+    course: 'BCS'
+  },
+  {
+    _id: ObjectId('686b809adcfab3ffa2748a63'),
+    name: 'Pratiksha Lad',
+    age: 24,
+    course: 'BSc'
+  }
+]
+
+
+School> db.Student.deleteMany({});
+{ acknowledged: true, deletedCount: 2 }
+77
+
+
+School> db.Student.find();
+
+School>
