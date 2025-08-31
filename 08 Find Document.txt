@@ -1,0 +1,64 @@
+----------	find / View Documents	----------
+
+
+
+
+1. Find All Documents : Returns all documents in the collection.
+
+	db.collection.find()
+
+
+2. Find with Filter (Query Conditions) : Returns documents matching the query condition.
+
+	db.collection.find({ field: value })
+
+
+3. Find with Projection : Selects specific fields to return.
+
+	db.collection.find(query, projection)
+	db.collection.find({ field: value }, {field1: 1 , field2 : 0 , field3 : 1})
+
+
+4. Find with Sort: Sorts the result; 
+		   1 for ascending, 
+		  -1 for descending.
+
+	db.collection.find().sort({ field: 1 or -1 })
+
+
+5. Find with Limit : Limits the number of documents returned.
+
+	db.collection.find().limit(n)
+
+
+6. Find with Skip : Skips the first n documents.
+
+	db.collection.find().skip(n)
+
+-----------------------------------------------------------------------------------------------------
+
+School> db.Students.find();
+
+School> db.Students.find({course:"MCA"});
+
+School> db.Students.findOne({course:"MCA"});
+
+School> db.Students.find({},{name:1 , course:1,_id:0});
+
+School> db.Students.find({course:"MCA"},{name:1 , course:1,_id:0});
+
+School> db.Students.find({},{name:1 , course:1,_id:0}).sort({name:1});
+
+School> db.Students.find({},{name:1 , course:1,_id:0}).sort({name:-1});
+
+School> db.Students.find({},{name:1 , course:1,_id:0}).sort({name:1}).limit(3);
+
+School> db.Students.find({},{name:1 , course:1,_id:0}).sort({name:-1}).limit(2);
+
+School> db.Students.find({},{name:1 , course:1,_id:0}).sort({name:-1}).limit(2).skip(1);
+
+School> db.Students.find({},{name:1 , course:1,_id:0}).sort({name:-1}).limit(1).skip(1);
+
+School> db.Students.find().limit(2).skip(3);
+
+School> db.Students.find().sort({name:-1}).limit(3).skip(2);
