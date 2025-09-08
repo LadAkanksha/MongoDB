@@ -1,0 +1,174 @@
+----------		Comparison Operator		----------
+
+	-	In MongoDB, comparison operators are used in queries to filter documents based on specified conditions.
+	
+🧮 MongoDB Comparison Operators : 
+
+----------------------------------------------------------------------------------------------
+   Operator	        Description				Example			     |
+----------------------------------------------------------------------------------------------	
+    $eq			Equal to			{ age: { $eq: 25 } }		     |
+    $ne			Not equal to			{ status: { $ne: "active" } }	     |
+    $gt			Greater than			{ age: { $gt: 18 } }    	     |
+    $gte		Greater than or equal to	{ score: { $gte: 90 } }		     |
+    $lt			Less than			{ price: { $lt: 100 } }		     |	
+    $lte		Less than or equal to		{ quantity: { $lte: 50 } }	     |
+    $in			Matches any in an array		{ status: { $in: ["A", "D"] } }	     |	
+    $nin		Not in the given array		{ age: { $nin: [20, 30, 40] } }	     |
+----------------------------------------------------------------------------------------------
+
+
+School> db.Students.find({age:{$eq:22}});
+Output =>[
+	  {
+		_id: ObjectId('68669c645bae57b6af748a5f'),
+		name: 'Akanksha Lad',
+		age: 22,
+		course: 'BCS'
+	  },
+	  {
+		_id: ObjectId('68669d375bae57b6af748a62'),
+		name: 'Shashikant Yadav',
+		age: 22,
+		course: 'MCA'
+	  }
+	]
+	
+School> db.Students.find({age:{$eq:20}});
+Output =>	
+
+School> db.Students.find({age:{$ne:22}});
+Output =>[
+	  {
+		_id: ObjectId('68669c895bae57b6af748a60'),
+		name: 'Atharv Lad',
+		age: 18,
+		course: '12th'
+	  },
+	  {
+		_id: ObjectId('68669cbe5bae57b6af748a61'),
+		name: 'Apeksha Lad',
+		age: 24,
+		course: 'D.Ed'
+	  },
+	  {
+		_id: ObjectId('68669d375bae57b6af748a63'),
+		name: 'Sushma Gurav',
+		age: 21,
+		course: 'MCA'
+	  }
+	]
+	
+School> db.Students.find({age:{$gt:20}});
+Output =>[
+	  {
+		_id: ObjectId('68669c645bae57b6af748a5f'),
+		name: 'Akanksha Lad',
+		age: 22,
+		course: 'BCS'
+	  },
+	  {
+		_id: ObjectId('68669cbe5bae57b6af748a61'),
+		name: 'Apeksha Lad',
+		age: 24,
+		course: 'D.Ed'
+	  },
+	  {
+		_id: ObjectId('68669d375bae57b6af748a62'),
+		name: 'Shashikant Yadav',
+		age: 22,
+		course: 'MCA'
+	  },
+	  {
+		_id: ObjectId('68669d375bae57b6af748a63'),
+		name: 'Sushma Gurav',
+		age: 21,
+		course: 'MCA'
+	  }
+	]
+
+School> db.Students.find({age:{$gte:23}});
+Output=>[
+	  {
+		_id: ObjectId('68669cbe5bae57b6af748a61'),
+		name: 'Apeksha Lad',
+		age: 24,
+		course: 'D.Ed'
+	  }
+	]
+
+School> db.Students.find({age:{$lt:20}});
+Output =>[
+	  {
+		_id: ObjectId('68669c895bae57b6af748a60'),
+		name: 'Atharv Lad',
+		age: 18,
+		course: '12th'
+	  }
+	]
+
+School> db.Students.find({age:{$lte:22}});
+Output =>[
+	  {
+		_id: ObjectId('68669c645bae57b6af748a5f'),
+		name: 'Akanksha Lad',
+		age: 22,
+		course: 'BCS'
+	  },
+	  {
+		_id: ObjectId('68669c895bae57b6af748a60'),
+		name: 'Atharv Lad',
+		age: 18,
+		course: '12th'
+	  },
+	  {
+		_id: ObjectId('68669d375bae57b6af748a62'),
+		name: 'Shashikant Yadav',
+		age: 22,
+		course: 'MCA'
+	  },
+	  {
+		_id: ObjectId('68669d375bae57b6af748a63'),
+		name: 'Sushma Gurav',
+		age: 21,
+		course: 'MCA'
+	  }
+	]
+
+School> db.Students.find({course:{$in:["BCS","MCA","MCS"]}});
+Output =>[
+	  {
+		_id: ObjectId('68669c645bae57b6af748a5f'),
+		name: 'Akanksha Lad',
+		age: 22,
+		course: 'BCS'
+	  },
+	  {
+		_id: ObjectId('68669d375bae57b6af748a62'),
+		name: 'Shashikant Yadav',
+		age: 22,
+		course: 'MCA'
+	  },
+	  {
+		_id: ObjectId('68669d375bae57b6af748a63'),
+		name: 'Sushma Gurav',
+		age: 21,
+		course: 'MCA'
+	  }
+	]
+			
+School> db.Students.find({course:{$nin:["BCS","MCA","MCS"]}});
+Output =>[
+	  {
+		_id: ObjectId('68669c895bae57b6af748a60'),
+		name: 'Atharv Lad',
+		age: 18,
+		course: '12th'
+	  },
+	  {
+		_id: ObjectId('68669cbe5bae57b6af748a61'),
+		name: 'Apeksha Lad',
+		age: 24,
+		course: 'D.Ed'
+	  }
+	]
