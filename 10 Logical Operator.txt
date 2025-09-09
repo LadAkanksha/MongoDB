@@ -1,0 +1,68 @@
+----------		Logical Operator          ----------
+
+	-  In MongoDB, Logical operators to combine or invert query conditions. These are crucial when you need to filter documents based on multiple criteria.
+
+🧮 MongoDB Logical Operators : 
+
+----------------------------------------------------------------------------------------------
+|   Operator	                          Description					     |
+----------------------------------------------------------------------------------------------	
+|    $and		Matches documents that satisfy all the given expressions	     |
+|    $or			Matches documents that satisfy at least one of the expressions	     |
+|    $nor		Matches documents that fail all the given expressions    	     |
+|    $not		Inverts the effect of a query expression		     	     |	
+----------------------------------------------------------------------------------------------
+
+School> db.Students.find({$and:[{course:{$in:["MCA","MCS"]}},{age:{$gt:20}}]});
+Output =>[
+	  {
+		_id: ObjectId('68669d375bae57b6af748a62'),
+		name: 'Shashikant Yadav',
+		age: 22,
+		course: 'MCA'
+	  },
+	  {
+		_id: ObjectId('68669d375bae57b6af748a63'),
+		name: 'Sushma Gurav',
+		age: 21,
+		course: 'MCA'
+	  }
+	]
+
+School> db.Students.find({$or:[{course:{$nin:["MCA","MCS"]}},{age:{$lt:20}}]},{name:1 , age:1, course:1 , _id:0});
+Output =>[
+	  { name: 'Akanksha Lad', age: 22, course: 'BCS' },
+	  { name: 'Atharv Lad', age: 18, course: '12th' },
+	  { name: 'Apeksha Lad', age: 24, course: 'D.Ed' }
+	]
+
+School> db.Students.find({$nor:[{age:{$lt:20}},{course:{$in:["BCS","MCA"]}}]})
+Output =>[
+	  {
+		_id: ObjectId('68669cbe5bae57b6af748a61'),
+		name: 'Apeksha Lad',
+		age: 24,
+		course: 'D.Ed'
+	  }
+	]
+
+School> db.Students.find({age:{$not:{$in:[22,24]}}});
+Output =>[
+	  {
+		_id: ObjectId('68669c895bae57b6af748a60'),
+		name: 'Atharv Lad',
+		age: 18,
+		course: '12th'
+	  },
+	  {
+		_id: ObjectId('68669d375bae57b6af748a63'),
+		name: 'Sushma Gurav',
+		age: 21,
+		course: 'MCA'
+	  }
+	]
+	
+	
+	
+	
+	
